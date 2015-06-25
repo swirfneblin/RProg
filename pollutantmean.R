@@ -1,16 +1,9 @@
 pollutantmean <- function(directory, pollutant, id = 1:332) {
-
-    require("stringr")
-    meanData <- c()
-    
+    data = numeric()
     for(i in id){
-        fileName <- paste(str_pad(i, width = 3, side = "left", pad = "0"), "csv", sep = ".")
-        fullPath <- paste(directory, fileName, sep = "/")
-        data <- read.csv(fullPath)
-        t <- mean(data[[pollutant]], na.rm = TRUE)
-        
-        if(!is.na(t))
-            meanData <- union(meanData, t)
+        newRead = read.csv(paste(directory, "/", formatC(i, width = 3, flag = "0"), 
+                                 ".csv", sep = ""))
+        data = c(data, newRead[[pollutant]])
     }
-    mean(meanData, na.rm = TRUE)
+    return(mean(data, na.rm = TRUE))
 }
